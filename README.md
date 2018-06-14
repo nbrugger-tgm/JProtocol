@@ -35,3 +35,13 @@ Obviously the top Level class is called `SimpleCluster`
 But i can tell you they are all well tested. For RSA and AES I use the default JavaSE API which is
 incredible difficult! So if RSA or AES has an error its not my fault.
 All the methods in the class are well documented or self describing.
+### Server Client Modell
+The Server Client modell is the most important part of the API. It consist of many and big classes.
+There are 3 Ways to use the given structure. The package is `com.niton.tele.network` and the
+most interesting classes there are `client.NetworkClient` and `server.Server`
+
+ 1. Basic Use
+	 2. Basic uses only a minimal part of the API and only use one Stream/Socket. It is for sending data over an single Stream for only one time. Its not recommended as it doesn't supports encryption multithreading or data handling and connection seccurity
+	 3. Examples are at the end of the document 
+ 2. Package Use
+	 3. 
