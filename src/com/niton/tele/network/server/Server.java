@@ -21,7 +21,7 @@ import com.niton.tele.network.NetworkListener;
 import com.niton.tele.network.packs.Package;
 import com.niton.tele.network.requests.DissconectRequest;
 import com.niton.tele.network.requests.Request;
-import com.niton.tele.network.requests.SubConnectionPackage;
+import com.niton.tele.network.requests.SubConnectionRequest;
 import com.niton.tele.network.response.Response;
 import com.niton.tele.network.server.listeners.AESKeyResponder;
 import com.niton.tele.network.server.listeners.DissconnectListener;
@@ -269,9 +269,9 @@ public class Server {
 					pack.setClientTolken(tolken);
 					Session s = getSession(tolken);
 					Socket sock;
-					if (pack.useSeperateSocket())
-						sock = new Socket(s.getConnection().getInetAddress(), s.getConnection().getPort());
-					else
+//					if (pack.useSeperateSocket())
+//						sock = new Socket(s.getConnection().getInetAddress(), s.getConnection().getPort());
+//					else
 						sock = s.getConnection();
 					OutputStream base = sock.getOutputStream();
 					CounterOutputStream cos = new CounterOutputStream(base);
@@ -301,7 +301,7 @@ public class Server {
 						sessions.replace(tolken, s);
 						((Request) pack).onResponse(res);
 					}
-					if (pack.useSeperateSocket() && !(pack instanceof SubConnectionPackage)) {
+					if (pack.useSeperateSocket() && !(pack instanceof SubConnectionRequest)) {
 						packageStream.close();
 						base.close();
 						sock.close();

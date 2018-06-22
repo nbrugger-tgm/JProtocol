@@ -49,6 +49,7 @@ public class MainSocketHandler extends Thread {
 					boolean encrypted;
 					Package<? extends Serializable> raw;
 					try {
+						input = new ObjectInputStream(socket.getInputStream());
 						encrypted = (boolean) input.readObject();
 						if (encrypted) {
 							SecretKey aesKey = listener.getKeyForClient((String) input.readObject());
@@ -85,7 +86,7 @@ public class MainSocketHandler extends Thread {
 						+ socket.getRemoteSocketAddress().toString());
 		} catch (Exception e) {
 			System.err.println(
-					"[Server] Exception on Main Socket " + socket.getRemoteSocketAddress().toString() + " : " + e);
+					"[Server] Exception on Main Socket " + socket.getRemoteSocketAddress().toString() + " -> " + e);
 		}
 	}
 

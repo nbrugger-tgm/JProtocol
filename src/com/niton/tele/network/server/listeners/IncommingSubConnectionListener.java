@@ -6,7 +6,7 @@ import java.net.Socket;
 import com.niton.tele.network.NetworkListener;
 import com.niton.tele.network.packs.Package;
 import com.niton.tele.network.requests.Request;
-import com.niton.tele.network.requests.SubConnectionPackage;
+import com.niton.tele.network.requests.SubConnectionRequest;
 
 /**
  * This is the SubConnectionListener Class
@@ -19,7 +19,7 @@ public abstract class IncommingSubConnectionListener implements NetworkListener 
 	 */
 	@Override
 	public final boolean acceptPackage(Package<? extends Serializable> pack) {
-		return pack instanceof SubConnectionPackage;
+		return pack instanceof SubConnectionRequest;
 	}
 	
 	public final void onRecivePackage(Package<? extends Serializable> pack, Socket conection) {

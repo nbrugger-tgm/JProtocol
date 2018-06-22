@@ -30,4 +30,12 @@ public class TolkenRequest extends Request {
 		return "Tolken";
 	}
 
+	/**
+	 * @see com.niton.tele.network.packs.Package#useSeperateSocket()
+	 */
+	@Override
+	public boolean useSeperateSocket() {
+		return false;
+	}
+
 }

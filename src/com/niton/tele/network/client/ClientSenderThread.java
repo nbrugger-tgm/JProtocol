@@ -13,7 +13,7 @@ import com.niton.tele.crypto.SimpleAES;
 import com.niton.tele.network.packs.MainSocketPacket;
 import com.niton.tele.network.packs.Package;
 import com.niton.tele.network.requests.Request;
-import com.niton.tele.network.requests.SubConnectionPackage;
+import com.niton.tele.network.requests.SubConnectionRequest;
 import com.niton.tele.network.response.Response;
 
 public class ClientSenderThread extends Thread {
@@ -106,7 +106,7 @@ public class ClientSenderThread extends Thread {
 											res = (Response<? extends Serializable>) ois.readObject();
 										req.onResponse(res);
 									}
-									if (pack.useSeperateSocket() && !(pack instanceof MainSocketPacket) && !(pack instanceof SubConnectionPackage)) {
+									if (pack.useSeperateSocket() && !(pack instanceof MainSocketPacket) && !(pack instanceof SubConnectionRequest)) {
 										subChannel.getOutputStream().close();
 										oos.close();
 										subChannel.close();

@@ -1,6 +1,7 @@
 package com.niton.tele.network.requests;
 
 import java.io.Serializable;
+import java.net.Socket;
 
 import com.niton.tele.network.client.NetworkClient;
 import com.niton.tele.network.packs.Package;
@@ -16,6 +17,7 @@ public final class SubConnectionRequest extends Request {
 	private static final long serialVersionUID = 5154700825727581176L;
 	private String name;
 	private transient SubConnectionReplayListener listener;
+	private Socket conection;
 	public SubConnectionRequest(String clientToken,String name,SubConnectionReplayListener listener) {
 		super(clientToken, false);
 		this.name = name;
