@@ -265,7 +265,8 @@ public class Server {
 			@Override
 			public void run() {
 				try {
-					System.out.println("[Server] Try send " + pack.getClass().getSimpleName());
+					if(log)
+						System.out.println("[Server] Try send " + pack.getClass().getSimpleName());
 					pack.setClientTolken(tolken);
 					Session s = getSession(tolken);
 					Socket sock;
