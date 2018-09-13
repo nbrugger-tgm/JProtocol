@@ -3,9 +3,8 @@
 The project is repaced by my new *JNet* respo. The new repo contains all features from this one but some more and provides a better structure and a more stable build
 
 ### This Repo
-
-PI only stays that you can look at the sources!
-We recommend to **NOT** use the binarys unless the cryptographic one!
+this repo only stays that you can look at the sources!
+We recommend to **NOT** use the binarys unless the cryptographic ones!
 If you notice issues you need to fix them yourself. The majority of the features work but i am aware of same bugs. The encryption is working fine only the network components are not stable. They are useable but some special cases are not covered
 # Save Network
 ## Description
