@@ -1,3 +1,5 @@
+# This AIP will not be updated anymore!!!
+## if you notice issues you need to fix them yourself. The majority of the features work but i am aware of same bugs. The encryption is working fine only the network components are not stable. They are useable but some special cases are not covered
 # Save Network
 ## Description
 Save Network is an **high level Java API**
