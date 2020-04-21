@@ -76,31 +76,36 @@ You can use this API great for :
 Cryptography:
  - RSA or AES en/decrypt a byte array 
 
-    `byte[] dataToEncrypt = "Some ****** very ****** bad text nobody is allowed to see".getBytes("UTF-8");
-    SecretKey key        = SimpleAES.generateKey(128);
-    byte[] encryptedData = SimpleAES.encrypt(key, dataToEncrypt);
-    //Some Time in between
-    byte[] decryptedData = SimpleAES.decrypt(key, encryptedData);`
-
+```java
+byte[] dataToEncrypt = "Some ****** very ****** bad text nobody is allowed to see".getBytes("UTF-8");
+SecretKey key        = SimpleAES.generateKey(128);
+byte[] encryptedData = SimpleAES.encrypt(key, dataToEncrypt);
+//Some Time in between
+byte[] decryptedData = SimpleAES.decrypt(key, encryptedData);`
+```
  - Cluster en/decrypt a byte array 
 
-    `byte[] dataToEncrypt = "Some ****** very ****** bad text nobody is allowed to see".getBytes("UTF-8");
-    byte[] key           = SimpleAES.generateRandom(1024);
-    byte[] encryptedData = SimpleCluster.encrypt(key, dataToEncrypt);
-    //Some Time in between
-    byte[] decryptedData = SimpleCluster.decrypt(key, encryptedData);`
+```java
+byte[] dataToEncrypt = "Some ****** very ****** bad text nobody is allowed to see".getBytes("UTF-8");
+byte[] key           = SimpleAES.generateRandom(1024);
+byte[] encryptedData = SimpleCluster.encrypt(key, dataToEncrypt);
+//Some Time in between
+byte[] decryptedData = SimpleCluster.decrypt(key, encryptedData);`
+```
     
 
  - Encrypt an `Serializeable` Object
 
-    `Rectangle secretRectangle = new Rectangle(123, 448, 625, 326);
-		SecretKey key = SimpleAES.generateKey(128);
-		SealedObject encrypted = SimpleAES.encryptObject(secretRectangle, key);
-		//You can do whatever you want here. I save it into an File
-		File f = new File("C:/myfile.obj.enc");
-		FileOutputStream fos = new FileOutputStream(f);
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(encrypted);`
+```java
+Rectangle secretRectangle = new Rectangle(123, 448, 625, 326);
+SecretKey key = SimpleAES.generateKey(128);
+SealedObject encrypted = SimpleAES.encryptObject(secretRectangle, key);
+//You can do whatever you want here. I save it into an File
+File f = new File("C:/myfile.obj.enc");
+FileOutputStream fos = new FileOutputStream(f);
+ObjectOutputStream oos = new ObjectOutputStream(fos);
+oos.writeObject(encrypted);
+```
 
  
 
