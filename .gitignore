@@ -1,6 +1,7 @@
 
 Save-Network/
-
+.settings/
+target/
 .idea/
 
 *.iml
