@@ -78,10 +78,9 @@ public class ClientSenderThread extends Thread {
 							subChannel.connect(adress);
 						} else
 							subChannel = c.getSocket();
-						Runnable send = new Runnable() {
-							@Override
-							public void run() {
-								try {
+						Runnable send = () -> {
+							try {
+								synchronized (subChannel) {
 									ObjectOutputStream oos;
 									oos = new ObjectOutputStream(subChannel.getOutputStream());
 									oos.writeObject(pack.isEncrypted());
@@ -92,35 +91,42 @@ public class ClientSenderThread extends Thread {
 										toSend = SimpleAES.encryptObject(pack, c.getAesKey());
 									} else
 										toSend = pack;
+									if (pack instanceof Request)
+										if (!pack.useSeperateSocket()) {
+											c.getInputListener().notifyNextResponse((Request) pack);
+										}
 									oos.writeObject(toSend);
 									oos.flush();
 									if (pack instanceof Request) {
-										Request req = (Request) pack;
-										ObjectInputStream ois = new ObjectInputStream(subChannel.getInputStream());
-										boolean crypt = (boolean) ois.readObject();
-										Response<? extends Serializable> res;
-										if (crypt)
-											res = (Response<? extends Serializable>) SimpleAES
-													.decryptObject((SealedObject) ois.readObject(), c.getAesKey());
-										else
-											res = (Response<? extends Serializable>) ois.readObject();
-										req.onResponse(res);
+										if (!pack.useSeperateSocket()) {
+											((Request) pack).await();
+										} else {
+											Request req = (Request) pack;
+											ObjectInputStream ois = new ObjectInputStream(subChannel.getInputStream());
+											boolean crypt = (boolean) ois.readObject();
+											Response<? extends Serializable> res;
+											if (crypt)
+												res = (Response<? extends Serializable>) SimpleAES
+														.decryptObject((SealedObject) ois.readObject(), c.getAesKey());
+											else
+												res = (Response<? extends Serializable>) ois.readObject();
+											req.responde(res);
+										}
 									}
 									if (pack.useSeperateSocket() && !(pack instanceof MainSocketPacket) && !(pack instanceof SubConnectionRequest)) {
 										subChannel.getOutputStream().close();
 										oos.close();
 										subChannel.close();
 									}
-
-								} catch (Exception e) {
-									System.err.println("[Client] Sending Failed : " + e);
 								}
+							} catch (Exception e) {
+								System.err.println("[Client] Sending Failed : " + e);
 							}
 						};
-						if (pack.useSeperateSocket())
+//						if (pack.useSeperateSocket())
 							new Thread(send, "Sub Socket Sender").start();
-						else
-							send.run();
+//						else
+//							send.run();
 						sent.add(pack);
 						System.gc();
 					} catch (Exception e) {

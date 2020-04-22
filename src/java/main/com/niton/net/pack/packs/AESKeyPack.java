@@ -1,6 +1,11 @@
 package com.niton.net.pack.packs;
 
-public class AESKeyPack extends Package<byte[]> {
+import com.niton.net.pack.requests.Request;
+import com.niton.net.pack.response.Response;
+
+import java.io.Serializable;
+
+public class AESKeyPack extends Request {
 	/**
 	 * <b>Type:</b> long<br>
 	 * <b>Description:</b><br>
@@ -8,7 +13,8 @@ public class AESKeyPack extends Package<byte[]> {
 	private static final long serialVersionUID = -2120012139026279476L;
 
 	public AESKeyPack(byte[] data, String tolken) {
-		super(data, tolken, false);
+		super(tolken, false);
+		setData(data);
 	}
 
 	@Override
@@ -24,4 +30,6 @@ public class AESKeyPack extends Package<byte[]> {
 		return true;
 	}
 
+	@Override
+	public void onResponse(Response<? extends Serializable> answer) {}
 }

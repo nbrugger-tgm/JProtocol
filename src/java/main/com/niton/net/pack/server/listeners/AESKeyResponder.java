@@ -9,6 +9,7 @@ import com.niton.net.pack.NetworkListener;
 import com.niton.net.pack.packs.AESKeyPack;
 import com.niton.net.pack.packs.Package;
 import com.niton.net.pack.requests.Request;
+import com.niton.net.pack.response.AESKeyReceivedResponse;
 import com.niton.net.pack.server.Server;
 import com.niton.net.pack.server.Session;
 
@@ -33,14 +34,15 @@ public class AESKeyResponder implements NetworkListener {
 
 	@Override
 	public void onRecivePackage(Package<? extends Serializable> pack, Socket conection) {
-		AESKeyPack AESpack = (AESKeyPack) pack;
-		Session s = this.s.getSession(AESpack.getClientTolken());
-		s.setAesKey(SimpleAES.getKey(SimpleRSA.decrypt(AESpack.getData(), s.getPriRsaKey())));
-		this.s.setSession(AESpack.getClientTolken(), s);
 	}
 
 	// AES Key Reciver
 	@Override
 	public void onReciveRequest(Request request, Socket conection) {
+		AESKeyPack AESpack = (AESKeyPack) request;
+		Session s = this.s.getSession(AESpack.getClientTolken());
+		s.setAesKey(SimpleAES.getKey(SimpleRSA.decrypt((byte[]) AESpack.getData(), s.getPriRsaKey())));
+		this.s.setSession(AESpack.getClientTolken(), s);
+		this.s.sendPacket(new AESKeyReceivedResponse(request.getClientTolken()), conection);
 	}
 }

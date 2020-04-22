@@ -11,6 +11,7 @@ import com.niton.net.crypto.SimpleAES;
 import com.niton.net.pack.NetworkListener;
 import com.niton.net.pack.packs.Package;
 import com.niton.net.pack.requests.Request;
+import com.niton.net.pack.response.Response;
 
 /**
  * This is the ClientListenerThread Class
@@ -21,6 +22,7 @@ import com.niton.net.pack.requests.Request;
 public class ClientListenerThread extends Thread {
 	private NetworkClient c;
 	private boolean running = true;
+	private Request next;
 
 	public ClientListenerThread(NetworkClient client) {
 		c = client;
@@ -88,6 +90,11 @@ public class ClientListenerThread extends Thread {
 							c.getAesKey());
 				else
 					pack = (Package<? extends Serializable>) ois.readObject();
+				if(next != null && pack instanceof Response){
+					next.responde((Response<? extends Serializable>) pack);
+					next = null;
+					continue;
+				}
 				if (c.isLog())
 					System.out.println("[Client] Recived Package : " + pack);
 				for (NetworkListener nl : c.getListeners())
@@ -109,5 +116,9 @@ public class ClientListenerThread extends Thread {
 			this.join();
 		} catch (InterruptedException e) {
 		}
+	}
+
+	public void notifyNextResponse(Request pack) {
+		this.next = pack;
 	}
 }

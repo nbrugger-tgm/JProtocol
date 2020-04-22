@@ -25,9 +25,6 @@ public class RSARequest extends Request {
 	public void onResponse(Response<? extends Serializable> answer) {
 		if (answer instanceof RSAResponse) {
 			client.setRsaKey((PublicKey) answer.getData());
-			synchronized (client.getWaiter()) {
-				client.getWaiter().notifyAll();
-			}
 		}
 	}
 

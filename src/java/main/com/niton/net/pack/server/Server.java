@@ -243,7 +243,7 @@ public class Server {
 					res = (Response<? extends Serializable>) SimpleAES.decryptObject((SealedObject) o, s.getAesKey());
 				else
 					res = (Response<? extends Serializable>) o;
-				((Request) pack).onResponse(res);
+				((Request) pack).responde(res);
 				if (s != null) {
 					s.recived(cis.getRecivedBytes());
 					sessions.replace(pack.getClientTolken(), s);
@@ -300,7 +300,7 @@ public class Server {
 							res = (Response<? extends Serializable>) oin.readObject();
 						s.recived(cin.getRecivedBytes());
 						sessions.replace(tolken, s);
-						((Request) pack).onResponse(res);
+						((Request) pack).responde(res);
 					}
 					if (pack.useSeperateSocket() && !(pack instanceof SubConnectionRequest)) {
 						packageStream.close();

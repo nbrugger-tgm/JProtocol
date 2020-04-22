@@ -25,12 +25,10 @@ import com.niton.net.pack.CounterOutputStream;
 import com.niton.net.pack.NetworkListener;
 import com.niton.net.pack.client.listeners.ClientDissconnectListener;
 import com.niton.net.pack.packs.AESKeyPack;
+import com.niton.net.pack.packs.ConnectionSuccessPackage;
 import com.niton.net.pack.packs.MainSocketPacket;
 import com.niton.net.pack.packs.Package;
-import com.niton.net.pack.requests.DissconectRequest;
-import com.niton.net.pack.requests.PingRequest;
-import com.niton.net.pack.requests.RSARequest;
-import com.niton.net.pack.requests.TokenRequest;
+import com.niton.net.pack.requests.*;
 import com.niton.net.pack.response.DissconnectResponse;
 import com.niton.net.pack.response.Response;
 
@@ -60,11 +58,7 @@ public class NetworkClient {
 	private ArrayList<Package<? extends Serializable>> querry = new ArrayList<>();
 	private int lastPing = MAX_PING;
 	private ArrayList<NetworkListener> listeners = new ArrayList<>();
-	private final Object waiter = new Object();
-	private Runnable onDissconnect = new Runnable() {
-		@Override
-		public void run() {
-		}
+	private Runnable onDissconnect = () -> {
 	};
 	private final boolean log;
 
@@ -199,17 +193,17 @@ public class NetworkClient {
 				throw new SocketException(" Connection Attempt failed!");
 
 			try {
-				synchronized (waiter) {
-					sendPackage(new TokenRequest(this));
-					waiter.wait(timeout);
-					sendPackage(new RSARequest(this));
-					waiter.wait(timeout);
-					setAesKey(SimpleAES.generateKey(128));
-					byte[] encryptedAESKey = getAesKey().getEncoded();
-					encryptedAESKey = SimpleRSA.encrypt(encryptedAESKey, rsaKey);
-					sendPackage(new AESKeyPack(encryptedAESKey, getTolken()));
-					connectMainSocket();
-				}
+				Request r  = new TokenRequest(this);
+				sendPackage(r);
+				r.await();
+				sendPackage(r = new RSARequest(this));
+				r.await();
+				setAesKey(SimpleAES.generateKey(128));
+				byte[] encryptedAESKey = getAesKey().getEncoded();
+				encryptedAESKey = SimpleRSA.encrypt(encryptedAESKey, rsaKey);
+				sendPackage(r = new AESKeyPack(encryptedAESKey, getTolken()));
+				r.await();
+				connectMainSocket();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -230,6 +224,7 @@ public class NetworkClient {
 		try {
 			socket.connect(new InetSocketAddress(getIp(), getPort()));
 			sendPackage(new MainSocketPacket(tolken));
+			sendPackage(new ConnectionSuccessPackage(tolken));
 		} catch (IOException e) {
 			System.out.println("[Client] Main Socket Error");
 			e.printStackTrace();
@@ -237,8 +232,8 @@ public class NetworkClient {
 	}
 
 	/**
-	 * Description : Ask the server for a peacefull disconnect without errors.<br>
-	 * As the server recive the request he should end up the things he is donig with
+	 * Description : Ask the server for a peacefully disconnect without errors.<br>
+	 * As the server recive the request he should end up the things he is doing with
 	 * this client and send a {@link DissconnectResponse} which will call the client
 	 * to finaly cut of the connection
 	 *
@@ -326,10 +321,6 @@ public class NetworkClient {
 
 	public String getTolken() {
 		return tolken;
-	}
-
-	public Object getWaiter() {
-		return waiter;
 	}
 
 	public boolean isConnected() {

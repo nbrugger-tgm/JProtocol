@@ -12,6 +12,8 @@ import com.niton.net.pack.response.Response;
  * @author M.Marincek
  */
 public abstract class Request extends Package<Serializable> {
+	private transient boolean received = false;
+	private transient final Object waiter = new Object();
 	private static final long serialVersionUID = -1278103283509235543L;
 
 	/**
@@ -27,6 +29,25 @@ public abstract class Request extends Package<Serializable> {
 	 */
 	public Request(String token, boolean encrypted) {
 		super(null, token, encrypted);
+	}
+
+
+	public final void responde(Response<? extends Serializable> response){
+		onResponse(response);
+		synchronized (waiter) {
+			received = true;
+			waiter.notifyAll();
+		}
+	}
+
+	public void await() throws InterruptedException {
+		if(received)
+			return;
+		else{
+			synchronized (waiter){
+				waiter.wait();
+			}
+		}
 	}
 
 	/**

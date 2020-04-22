@@ -25,9 +25,6 @@ public class TokenRequest extends Request {
 		if (answer instanceof TokenResponse) {
 			TokenResponse tolkenAnswer = (TokenResponse) answer;
 			client.setTolken(tolkenAnswer.getData());
-			synchronized (client.getWaiter()) {
-				client.getWaiter().notifyAll();
-			}
 		}
 	}
 
