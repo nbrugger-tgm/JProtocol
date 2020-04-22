@@ -16,7 +16,7 @@
         <java.version>1.8</java.version>
         <app.name>Save Network</app.name>
         <app.artifact>save-nwtk</app.artifact>
-        <app.version>1.5.2</app.version>
+        <app.version>1.6</app.version>
         <build.starter></build.starter>
 
 		<git.user>nbrugger-tgm</git.user>

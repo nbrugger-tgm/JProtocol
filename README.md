@@ -1,16 +1,24 @@
-# This API is closed!!!
-### Replacement
-The project is repaced by my new *JNet* respo. The new repo contains all features from this one but some more and provides a better structure and a more stable build
-
-### This Repo
-this repo only stays that you can look at the sources!
-We recommend to **NOT** use the binarys unless the cryptographic ones!
-If you notice issues you need to fix them yourself. The majority of the features work but i am aware of same bugs. The encryption is working fine only the network components are not stable. They are useable but some special cases are not covered
-# Save Network
+# Save Network lib
 ## Description
 Save Network is an **high level Java API**
 It provides everything you need to create java Applicationes which are interacting with Networks.
-It has many and hight implemented Classes to build Server-Client Applicationes.
+It has many and hight implemented Classes to build Server-Client Applications.
+
+#### Pros
+
++ Many Features
++ Very easy to use - Fast to use
++ Moderate to low traffic due binary protocoll
+
+#### Cons
+
+- Not professional coded (spare time/hobby project)
+- Overhead compared to plain/native binary communication
+  - (More traffic)
+- Not performance optimized
+- *NOT* compatible with other languages than java (Clients need java)
+
+> This lib is focused on high level package communication. While you can use low level/native sockets there is a separate lib called `JNet` Which is focused on managed low level / binary sockets 
 ## Overview
  1. Functions
  2. Where to use
@@ -18,10 +26,7 @@ It has many and hight implemented Classes to build Server-Client Applicationes.
  4. Rights and Usage
 ## Funktionen
  1. Cryptography
- 2. Server Client Modell
-	 1. Basic Use
-	 2. Package Use
-	 3. Full Stack Use
+  2. Server Client Modell
 
 ### Cryptography
 the package `com.niton.tele.crypto` is responsable for all Cryptographic tasks.
@@ -29,49 +34,42 @@ The Package consists of two parts.
 The first part are the standardized Encryption Methods **RSA** and **AES**.  The classes
 for them are called `SimpleAES` and `SimpleRSA`which contain hight level en/decrypt
 methods.
-The seccond part is my custom Encryption called **CLUSTER**. The technice is a bit like a
-rubics Cube, but you can see the source. The advantage of Clustering is that the key has **only
-one rule**: it needs at least 1  Byte and should / can not exceed the size of `Integer.MAX_VALUE`.
+The second part is my custom Encryption called **CLUSTER**. The technice is a bit like a
+rubic-cubes, but you can see the source. The advantage of Clustering is that the key has **only
+one rule**: it needs at least 1  Byte (key and data) and should / can not exceed the size of `Integer.MAX_VALUE`.
 Obviously the top Level class is called `SimpleCluster`
 
-> **The use of the encryptions is at your own risk! 
+> **The use of the encryption (CLUSTER) is at your own risk! 
 > *I am NOT responsible for any loss of data or a loss of security***
 
-
-But i can tell you they are all well tested. For RSA and AES I use the default JavaSE API which is
-incredible difficult! So if RSA or AES has an error its not my fault.
+But I can tell you they are all well tested. For RSA and AES I use the default JavaSE API which is
+incredible difficult!
 All the methods in the class are well documented or self describing.
+
 ### Server Client Modell
-The Server Client modell is the most important part of the API. It consist of many and big classes.
-There are 3 Ways to use the given structure. The package is `com.niton.tele.network` and the
+The Server Client model is the most important part of the API. It consist of many and big classes.
+There are 3 Ways to use the given structure. The package is `com.niton.net.pack` and the
 most interesting classes there are `client.NetworkClient` and `server.Server`
 
- - Basic Use
-	 1. Basic uses only a minimal part of the API and **only use one Stream**/Socket. It is for sending data over an single Stream for only one time. Its not recommended as it doesn't supports encryption multithreading or data handling and connection seccurity
-	 2. Examples are at the end of the document 
- - Package Use
-	 1. Package Use allows you additional to the Basic use to pack the data to send in packages.
-	 2. Because of this you have the advantage that you are able to **easy send full Objects** and big data constructs, the disadvantage you have in comparison to the Basic Use is that you are not able to stream the content so its not recommended for Big downloads as long as you dont write your own PackageSplitter
-	 3. Encrypting also doesnt works here
- - Full stack
-	 1. Here you have a very very hight amount of good services automisations and other cool stuff.
-	 2. You can use this very easy as its very beautiful designed 
-	 3. Some cool features
-		 1. Automated Session Handling
-		 2. Automated (controllable) Encryption
-		 3. Automated Multitherading
-		 4. ping
-		 5. and much more
-	 4. Additional we can use the Streaming feature from the Simple Use
+1. Here you have a very very high amount of good services automations and other cool stuff.
+ 2. You can use this very easy as its very beautiful designed 
+ 3. Some cool features
+	 1. Automated Session Handling (counting traffic -> send/received bytes)
+	 2. Automated (controllable) Encryption
+	 3. Automated Multithreading 
+	 4. ping
+	 5. and much more
+ 4. Additional you can directly use plain Sockets if you need to
+      1. This feature is also Thread save
+
 ## Where to use
 You can use this API great for :
  - Data providing Services
- - Making an API for your Web Service
  - Live Data transmission
  - Online Based Games
  - Chat Services
  - Custom Servers
- - Something like Samba (sharing files/dirs in local networks) 
+ - Something like Samba (sharing files/dirs in local networks)
 ## Examples
 Cryptography:
  - RSA or AES en/decrypt a byte array 
@@ -92,7 +90,7 @@ byte[] encryptedData = SimpleCluster.encrypt(key, dataToEncrypt);
 //Some Time in between
 byte[] decryptedData = SimpleCluster.decrypt(key, encryptedData);`
 ```
-    
+
 
  - Encrypt an `Serializeable` Object
 
@@ -107,6 +105,4 @@ ObjectOutputStream oos = new ObjectOutputStream(fos);
 oos.writeObject(encrypted);
 ```
 
- 
-
-
+More examples are found in the `examples` package
