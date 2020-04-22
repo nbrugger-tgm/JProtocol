@@ -63,7 +63,7 @@ public class SubSocketHandler extends Thread {
 			for (NetworkListener listener : server.getListeners())
 				if (listener.acceptPackage(raw)) {
 					if (server.isLog())
-						System.out.println("[Server] Call Listener for this package");
+						System.out.println("[Server] Call Listener for this package ("+listener.getClass().getSimpleName()+")");
 					Runnable code = new Runnable() {
 						@Override
 						public void run() {

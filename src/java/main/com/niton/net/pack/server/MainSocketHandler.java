@@ -74,7 +74,7 @@ public class MainSocketHandler extends Thread {
 					for (NetworkListener listener : server.getListeners())
 						if (listener.acceptPackage(raw)) {
 							if (server.isLog())
-								System.out.println("[Server] Call Listener for this package");
+								System.out.println("[Server] Call Listener for this package ("+listener.getClass().getSimpleName()+")");
 							if (raw instanceof Request)
 								listener.onReciveRequest((Request) raw, socket);
 							else
