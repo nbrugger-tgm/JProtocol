@@ -20,12 +20,12 @@
         <build.starter></build.starter>
 
 		<git.user>nbrugger-tgm</git.user>
-		<git.repo>Niton-Media-Framework</git.repo>
+		<git.repo>Save-Network</git.repo>
         <!-- Advanced -->
         <app.group>com.niton</app.group>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <sources.test></sources.test>
+        <sources.test>src/java/test</sources.test>
         <sources.main>src/java/main</sources.main>
         <sources.resource>resources</sources.resource>
         <sources.resource.exclude>noexport</sources.resource.exclude>
@@ -37,52 +37,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.objenesis</groupId>
-            <artifactId>objenesis</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org/jaudiotagger -->
-        <dependency>
-            <groupId>org</groupId>
-            <artifactId>jaudiotagger</artifactId>
-            <version>2.0.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jcodec</groupId>
-            <artifactId>jcodec-javase</artifactId>
-            <version>0.2.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jcodec</groupId>
-            <artifactId>jcodec</artifactId>
-            <version>0.2.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.external</groupId>
-            <artifactId>tag-edit</artifactId>
-            <version>unknown</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/TagEddit.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.external</groupId>
-            <artifactId>filedrop</artifactId>
-            <version>unknown</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/filedrop.jar</systemPath>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/javazoom/jlayer -->
-        <dependency>
-            <groupId>javazoom</groupId>
-            <artifactId>jlayer</artifactId>
-            <version>1.0.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/jl1.0.1.jar</systemPath>
-        </dependency>
     </dependencies>
 
 
