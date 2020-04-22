@@ -9,7 +9,7 @@ public class Cluster {
 			cluster = new byte[(int) sqrt][(int) sqrt];
 			setData(data);
 		} else
-			throw new IllegalArgumentException("Data has to be an byte[n²] Value");
+			throw new IllegalArgumentException("Data has to be an byte[n^2] Value");
 	}
 
 	public Cluster(byte[][] cluster) {
