@@ -5,6 +5,7 @@ import java.net.Socket;
 
 import com.niton.net.pack.NetworkListener;
 import com.niton.net.pack.packs.Package;
+import com.niton.net.pack.requests.PingRequest;
 import com.niton.net.pack.requests.Request;
 import com.niton.net.pack.response.PingResponse;
 import com.niton.net.pack.server.Server;
@@ -25,7 +26,7 @@ public class PingResponder implements NetworkListener {
 
 	@Override
 	public boolean acceptPackage(Package<? extends Serializable> pack) {
-		return pack.getName().equals("PING");
+		return  pack instanceof  PingRequest;
 	}
 
 	@Override
