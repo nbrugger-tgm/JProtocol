@@ -7,7 +7,10 @@ import java.security.PublicKey;
 import java.util.HashMap;
 
 import javax.crypto.SecretKey;
-
+/**
+ * A session is used by the server to hold data about the connection with a client.
+ * Containing the most important informations about the connection like exchanged bytes
+ */
 public class Session implements Serializable {
 	private static final long serialVersionUID = -4688845051982836018L;
 	private transient Socket connection;
@@ -22,31 +25,48 @@ public class Session implements Serializable {
 	public SecretKey getAesKey() {
 		return aesKey;
 	}
-
+	/**
+	 * Get the System.ms timestamp from the moment the connection was established
+	 */
 	public long getConectionStarted() {
 		return connectionStarted;
 	}
 
+	/**
+	 * Get the time the connections lasts in minutes
+	 */
 	public int getConnectedMinutes() {
 		return (int) ((System.currentTimeMillis() - connectionStarted) / (1000 * 60) % 60);
 	}
 
+	/**
+	 * Get the time the connections lasts in secconds
+	 */
 	public int getConnectedSecconds() {
 		return (int) ((System.currentTimeMillis() - connectionStarted) / 1000) % 60;
 	}
-
+	/**
+	 * @return the MainSocket of the connection
+	 */
 	public Socket getConnection() {
 		return connection;
 	}
-
+	
+	/**
+	 * The server is able to save key,value pairs for each session/client
+	 * This values can be received here
+	 */
 	public Object getData(String key) {
 		return datas.get(key);
 	}
-
+	/**
+	 * The server is able to save key,value pairs for each session/client
+	 * This values can be received here
+	 */
 	public HashMap<String, Object> getDatas() {
 		return datas;
 	}
-
+	
 	public String getIp() {
 		return connection.getInetAddress().getHostAddress();
 	}
@@ -66,11 +86,15 @@ public class Session implements Serializable {
 	public long getSendBytes() {
 		return sendBytes;
 	}
-
+	/**
+	 * Adds to the received byte count
+	 */
 	public void recived(long bytes) {
 		recivedBytes += bytes;
 	}
-
+	/**
+	 * Adds to the sent byte count
+	 */
 	public void send(long bytes) {
 		sendBytes += bytes;
 	}
