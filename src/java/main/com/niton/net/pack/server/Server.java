@@ -15,27 +15,19 @@ import java.util.Random;
 import javax.crypto.SealedObject;
 
 import com.niton.net.crypto.SimpleAES;
-import com.niton.net.pack.CounterInputStream;
-import com.niton.net.pack.CounterOutputStream;
-import com.niton.net.pack.NetworkListener;
+import com.niton.net.pack.*;
 import com.niton.net.pack.packs.Package;
-import com.niton.net.pack.requests.DissconectRequest;
-import com.niton.net.pack.requests.Request;
-import com.niton.net.pack.requests.SubConnectionRequest;
+import com.niton.net.pack.requests.*;
 import com.niton.net.pack.response.Response;
-import com.niton.net.pack.server.listeners.AESKeyResponder;
-import com.niton.net.pack.server.listeners.DissconnectListener;
-import com.niton.net.pack.server.listeners.MainSocketListener;
-import com.niton.net.pack.server.listeners.PingResponder;
-import com.niton.net.pack.server.listeners.RSAKeyResponder;
-import com.niton.net.pack.server.listeners.TokenRequestListener;
+import com.niton.net.pack.server.listeners.*;
 
 /**
- * The Server class provides a
+ * The Server class provides a Network/Socket based server. Made to handle multiple connections to client at a hight level 
  *
- * @author VonPech
+ * @author Nils Brugger
  */
 public class Server {
+	//To unify UNIX and Windows
 	final static String line = "\n";
 	private HashMap<String, Session> sessions = new HashMap<>();
 	private ServerSocket socket;
@@ -46,7 +38,10 @@ public class Server {
 	private final boolean log;
 
 	public final int TOLKEN_SIZE;
-
+	/**
+	 * @param tokenSize is the size of the tokens which clients are identified with. maxClients = tokensize*bytesizeof(char)
+	 * @param log if this is true console outputs will be made by the server
+	 */
 	public Server(int tolkenSize, int port, boolean log) throws IOException {
 		TOLKEN_SIZE = tolkenSize;
 		this.log = log;
@@ -59,7 +54,6 @@ public class Server {
 		addListener(new MainSocketListener(this));
 		addListener(new DissconnectListener(this));
 	}
-
 	public void addListener(NetworkListener listeners) {
 		this.listeners.add(listeners);
 	}
