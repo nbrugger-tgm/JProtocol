@@ -1,8 +1,16 @@
 # Save Network lib
+
+> This library undergoes a rework in the moment.
+> * Unit tests -> CI will be added soon
+> * Conventional Commits
+> * Bugfixes
+> * Documentation
+> Therefore i don't recommend using any version bevore `2.0.0rc0` is released
+
 ## Description
-Save Network is an **high level Java API**
-It provides everything you need to create java Applicationes which are interacting with Networks.
-It has many and hight implemented Classes to build Server-Client Applications.
+Save Network is an high level Java API
+It provides everything you need to create Java applications which are interacting with Networks.
+It can be used to easily build Server-Client applications.
 
 #### Pros
 
